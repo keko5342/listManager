@@ -11,6 +11,27 @@ class TwitterInfo:
     def returnScreenName(self):
         return self.screenName
 
+    def returnFollowUser(self):
+        followUserList = []
+        followUsers = []
+        for j in range(15):
+            if j == 0:
+                followUserList.append(self.api.GetFriendsPaged(screen_name=self.screenName))
+            else:
+                followUserList.append(self.api.GetFriendsPaged(screen_name=self.screenName, cursor=followUserList[j - 1][0]))
+            if followUserList[j][0] == 0:
+                break
+        print(followUserList)
+        try:
+            [followUsers.append(followUserList[j][2][i].screen_name) for j in range(len(followUserList)) for i in range(len(followUserList[j][2]))]
+            return followUsers
+        except TypeError:
+            return followUsers
+
+    def returnListMember(self, listName):
+        userList = [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]
+        return userList
+
     def __init__(self, api):
         self.api = api
         self.getScreenName()
