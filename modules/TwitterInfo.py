@@ -24,9 +24,10 @@ class TwitterInfo:
         print(followUserList)
         try:
             [followUsers.append(followUserList[j][2][i].screen_name) for j in range(len(followUserList)) for i in range(len(followUserList[j][2]))]
-            return followUsers
         except TypeError:
-            return followUsers
+            pass
+        self.followUsers = followUsers
+        return followUsers
 
     def returnListMember(self, listName):
         userList = [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]

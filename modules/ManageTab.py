@@ -43,25 +43,18 @@ class ManageTab(Frame):
         listExist = []
         [listExist.append(listMemberShip[i].slug) for i in range(len(listMemberShip))]
         print(listExist)
-        self.checkBoxList[0].set(True)
-        '''
         for i in range(len(self.checkBoxFlags)):
-            self.checkBoxFlags[i] = False
+            self.checkBoxFlags[i].set(False)
             for j in range(len(listExist)):
                 if self.checkBoxList[i].cget("text") == listExist[j]:
-                    self.checkBoxFlags[i] = True
-        print(self.checkBoxFlags)
-        for i in range(len(self.checkBoxFlags)):
-            if i == (len(self.checkBoxFlags)):
-                
-        def chkLstMember(selectUser):
-            lstMmbShip = api.GetMemberships(screen_name=selectUser, filter_to_owned_lists=True)
-            lstChecked = []
-            for i in range(len(lstMmbShip)):
-                try:
-                    lstChecked.append(lstMmbShip[i].slug)
-                except TypeError:
-                    pass
+                    self.checkBoxFlags[i].set(True)
+
+    def followExistCheck(self, selectUser):
+        userList = self.twitterInfo.returnFollowUser()
+        for i in range(len(userList)):
+            if userList[i] == selectUser:
+                self.checkBoxFlags[-1].set(True)
+        '''                
             for i in range(len(ChkBoxList)):
                 flgChkList[i].set(False)
                 if i == (len(ChkBoxList) - 1):
@@ -69,10 +62,6 @@ class ManageTab(Frame):
                     for j in range(len(lstFollower)):
                         if lstFollower[j] == selectUser:
                             print("Yes")
-                            flgChkList[i].set(True)
-                else:
-                    for j in range(len(lstChecked)):
-                        if lstChecked[j] == ChkBoxList[i].cget("text"):
                             flgChkList[i].set(True)
         '''
 
@@ -82,6 +71,8 @@ class ManageTab(Frame):
 
         self.manageTabLabel = Label(self, text='ManageTab').place(relwidth=0.33, relheight=0.025 - widgetHeightMargin * 2, relx=widgetWidthMargin, rely=widgetHeightMargin)
         ownerList = [i.name for i in self.twitterInfo.returnNumList()]
-        self.checkBoxFlags = [BooleanVar().set(False) for i in range(len(ownerList))]
+        self.checkBoxFlags = [BooleanVar() for i in range(len(ownerList) + 1)]
+        [self.checkBoxFlags[i].set(False) for i in range(len(self.checkBoxFlags))]
         self.checkBoxList = [Checkbutton(self, text=ownerList[i], variable=self.checkBoxFlags[i]) for i in range(len(ownerList))]
+        self.checkBoxList.append(Checkbutton(self, text="Follow", variable=len(self.checkBoxFlags)))
         [self.checkBoxList[i].place(relx=0.0, rely=(0.03 + 0.03 * i)) for i in range(len(self.checkBoxList))]
