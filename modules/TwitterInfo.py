@@ -32,6 +32,24 @@ class TwitterInfo:
         userList = [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]
         return userList
 
+    def returnNumList(self):
+        return self.api.GetLists(screen_name=self.screenName)
+
+    def RemoveFollowUser(self, user=""):
+        self.api.DestroyFriendship(screen_name=user)
+
+    def AddFollowUser(self, user=""):
+        self.api.CreateFriendship(screen_name=user, follow=False)
+
+    def RemoveListUser(self, slug="", user=""):
+        self.api.DestroyListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+
+    def AddListUser(self, slug="", user=""):
+        self.api.CreateListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+
+    def returnListMemberShip(self, selectUser):
+        return self.api.GetMemberships(screen_name=selectUser, filter_to_owned_lists=True)
+
     def __init__(self, api):
         self.api = api
         self.getScreenName()
