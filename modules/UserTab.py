@@ -48,3 +48,6 @@ class UserTab(Frame):
 
         # Set List
         self.scrollListBox.insert(END, *userList) 
+
+    def returnSelectUser(self, event):
+        return self.scrollListBox.get(self.scrollListBox.nearest(event.y))

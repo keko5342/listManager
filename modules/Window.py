@@ -17,6 +17,14 @@ class Window:
 
     def returnRoot(self, component):
         self.root = component.returnComponent(self.root)
+
+    def scrollListClickedEvent(self, event):
+        self.selectUser = self.userTab.returnSelectUser(event)
+        print(self.selectUser)
+        self.manageTab.listExistCheck(self.selectUser)
+
+    def checkBoxClickedEvent(self, event):
+        self.manageTab.checkBoxClicked(event, self.selectUser)
     
     def __init__(self, monitorInfo, api):
         self.monitorInfo = monitorInfo
@@ -25,5 +33,7 @@ class Window:
         monitorWidthQuoted = self.monitorInfo.returnMonitorWidth(4)
         self.setup()
         self.userTab = UserTab.UserTab(master=self.root, width=monitorWidthQuoted, height=monitorHeight, api=api)
-        self.illustTab = IllustTab.IllustTab(master=self.root, width=monitorWidthHarfed, height=monitorHeight)
-        self.manageTab = ManageTab.ManageTab(master=self.root, width=monitorWidthQuoted, height=monitorHeight)
+        self.userTab.scrollListBox.bind("<Button-1>", self.scrollListClickedEvent)
+        self.illustTab = IllustTab.IllustTab(master=self.root, width=monitorWidthHarfed, height=monitorHeight, api=api)
+        self.manageTab = ManageTab.ManageTab(master=self.root, width=monitorWidthQuoted, height=monitorHeight, api=api)
+        [self.manageTab.checkBoxList[i].bind("<Button-1>", self.checkBoxClickedEvent) for i in range(len(self.manageTab.checkBoxList))]
