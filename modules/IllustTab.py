@@ -7,7 +7,7 @@ class IllustTab(Frame):
         self['width'] = width
         self['height'] = height
         self.create_widgets()
-        self.place(relx=0.25, rely=0.0)
+        self.place(relx=0.25, rely=0.0, relwidth=0.5, relheight=1.0)
 
     def create_widgets(self):
         widgetWidthMargin = 0.01
