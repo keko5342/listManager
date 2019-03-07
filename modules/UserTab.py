@@ -20,6 +20,7 @@ class UserTab(Frame):
         widgetWidthMargin = 0.01
         widgetHeightMargin = 0.003
 
+        # TopSide
         self.topFrame = Frame(self, bg='purple')
         self.userTabLabel = Label(self.topFrame, text='UserTab').place(relwidth=0.33, relheight=0.5 - widgetHeightMargin * 2, relx=0.0, rely=0.0)
         self.listNameLabel = Label(self.topFrame, text='リスト名:').place(relwidth=0.2, relheight=0.5, relx=0.0, rely=0.5)
@@ -28,13 +29,15 @@ class UserTab(Frame):
         self.listNameComboBox.place(relwidth=0.6, relheight=0.5, relx=0.2, rely=0.5)
         self.SubmitButton = Button(self.topFrame, text='設定', relief=RIDGE, command=self.setListMemberAtScrollList).place(relwidth=0.2, relheight=0.5, relx=0.8, rely=0.5)
 
+        # BottomSide
         self.scrollListBox = Listbox(self)
+
+        # Placing
         self.topFrame.place(relwidth=1.0 - widgetWidthMargin * 2, relheight=0.05 - widgetHeightMargin * 2,  \
             relx=widgetWidthMargin, rely=widgetHeightMargin)
         self.scrollListBox.place(relwidth=1.0 - widgetWidthMargin * 2, relheight=0.95 - widgetHeightMargin, \
             relx=widgetWidthMargin, rely=0.05)
-    
-    #setScrollList
+
     def setListMemberAtScrollList(self):
         # Clear Old List
         self.scrollListBox.delete(0, self.scrollListBox.size())
