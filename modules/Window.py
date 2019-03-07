@@ -22,6 +22,7 @@ class Window:
         self.selectUser = self.userTab.returnSelectUser(event)
         print(self.selectUser)
         self.manageTab.listExistCheck(self.selectUser)
+        self.manageTab.followExistCheck(self.selectUser)
 
     def checkBoxClickedEvent(self, event):
         self.manageTab.checkBoxClicked(event, self.selectUser)
