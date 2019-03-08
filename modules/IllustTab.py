@@ -35,8 +35,6 @@ class IllustTab(Frame):
             dst_path = os.path.join(download_dir, filename)
             time.sleep(sleep_time_sec)
 
-            #kokokara
-
             img = self.downloadImage(imageUrl[i], dst_path)
             img = Image.open(dst_path, 'r')
             img.thumbnail((self['width'] / 2, self['height'] / 2))

@@ -40,11 +40,6 @@ class TwitterInfo:
             except TypeError:
                 pass
         return urlList
-        '''
-        dld4Image()
-        strExtImage = '追加読み込み(後' + str(len(urls)) + '枚)'
-        nxtImgButton.configure(text=strExtImage)
-        '''
 
     def returnNumList(self):
         return self.api.GetLists(screen_name=self.screenName)

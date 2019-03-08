@@ -54,16 +54,6 @@ class ManageTab(Frame):
         for i in range(len(userList)):
             if userList[i] == selectUser:
                 self.checkBoxFlags[-1].set(True)
-        '''                
-            for i in range(len(ChkBoxList)):
-                flgChkList[i].set(False)
-                if i == (len(ChkBoxList) - 1):
-                    print("lstFollower: " + str(lstFollower))
-                    for j in range(len(lstFollower)):
-                        if lstFollower[j] == selectUser:
-                            print("Yes")
-                            flgChkList[i].set(True)
-        '''
 
     def create_widgets(self):
         widgetWidthMargin = 0.01

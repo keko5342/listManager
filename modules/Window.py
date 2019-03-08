@@ -23,6 +23,12 @@ class Window:
         print(self.selectUser)
         self.manageTab.listExistCheck(self.selectUser)
         self.manageTab.followExistCheck(self.selectUser)
+        imageUrl = self.userTab.twitterInfo.getImageURL(self.selectUser)
+        self.illustTab.downloadFourImage(imageUrl, self.monitorWidthQuoted)
+        '''
+        strExtImage = '追加読み込み(後' + str(len(urls)) + '枚)'
+        nxtImgButton.configure(text=strExtImage)
+        '''
 
     def checkBoxClickedEvent(self, event):
         self.manageTab.checkBoxClicked(event, self.selectUser)
