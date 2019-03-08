@@ -21,12 +21,12 @@ class TwitterInfo:
                 followUserList.append(self.api.GetFriendsPaged(screen_name=self.screenName, cursor=followUserList[j - 1][0]))
             if followUserList[j][0] == 0:
                 break
-        print(followUserList)
         try:
             [followUsers.append(followUserList[j][2][i].screen_name) for j in range(len(followUserList)) for i in range(len(followUserList[j][2]))]
-            return followUsers
         except TypeError:
-            return followUsers
+            pass
+        self.followUsers = followUsers
+        return followUsers
 
     def returnListMember(self, listName):
         return [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]
@@ -45,6 +45,24 @@ class TwitterInfo:
         strExtImage = '追加読み込み(後' + str(len(urls)) + '枚)'
         nxtImgButton.configure(text=strExtImage)
         '''
+
+    def returnNumList(self):
+        return self.api.GetLists(screen_name=self.screenName)
+
+    def RemoveFollowUser(self, user=""):
+        self.api.DestroyFriendship(screen_name=user)
+
+    def AddFollowUser(self, user=""):
+        self.api.CreateFriendship(screen_name=user, follow=False)
+
+    def RemoveListUser(self, slug="", user=""):
+        self.api.DestroyListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+
+    def AddListUser(self, slug="", user=""):
+        self.api.CreateListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+
+    def returnListMemberShip(self, selectUser):
+        return self.api.GetMemberships(screen_name=selectUser, filter_to_owned_lists=True)
 
     def __init__(self, api):
         self.api = api
