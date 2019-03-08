@@ -69,13 +69,3 @@ class IllustTab(Frame):
                 f.write(data)
         except urllib.error.URLError as e:
             print(e)
-'''
-lb = Label(frame2, text='画像', bg='yellow', relief=RIDGE, bd=2)
-lb.place(relx=0.0, rely=0.0)
-strExtImage = '追加読み込み(後' + str(len(urls)) + '枚)'
-nxtImgButton = Button(frame2, text=strExtImage, command=nxtImage)
-nxtImgButton.place(relx=0.1, rely=0.0)
-grdFrame = Frame(frame2, width = dekWdhHarf, height = dekFulHeight, bg = 'white')
-grdFrame.place(relx=0.0, rely=0.03)
-lstLabel = setImage()
-'''
