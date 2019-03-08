@@ -64,5 +64,5 @@ class ManageTab(Frame):
         self.checkBoxFlags = [BooleanVar() for i in range(len(ownerList) + 1)]
         [self.checkBoxFlags[i].set(False) for i in range(len(self.checkBoxFlags))]
         self.checkBoxList = [Checkbutton(self, text=ownerList[i], variable=self.checkBoxFlags[i]) for i in range(len(ownerList))]
-        self.checkBoxList.append(Checkbutton(self, text="Follow", variable=len(self.checkBoxFlags)))
+        self.checkBoxList.append(Checkbutton(self, text="Follow", variable=self.checkBoxFlags[-1]))
         [self.checkBoxList[i].place(relx=0.0, rely=(0.03 + 0.03 * i)) for i in range(len(self.checkBoxList))]
