@@ -1,16 +1,14 @@
 from tkinter import *
 
 class IllustTab(Frame):
-    def __init__(self, master=None, width=0, height=0):
-         # Frame Initalize
+    def __init__(self, master=None, width=0, height=0, api=0):
         super().__init__(master)
         self['bg'] = 'yellow'
         self['width'] = width
         self['height'] = height
         self.create_widgets()
 
-        # Bounding Frame
-        self.place(relx=0.25, rely=0.0)
+        self.place(relx=0.25, rely=0.0, relwidth=0.5, relheight=1.0)
 
     def create_widgets(self):
         widgetWidthMargin = 0.01
@@ -42,10 +40,6 @@ class IllustTab(Frame):
                     print("RGB converted")
                 except IOError:
                     print("Cannot converted")
-            #canvas = Canvas(grdFrame, width=monitorWidthQuated, height=monitorWidthQuated, relief=RIDGE, bd=2, bg='red')
-            #canvas.create_image(0, 0, image=img, anchor=NW)
-            #print(canvas)
-            #passes.append(ImageTk.PhotoImage(image=img))
             lstLabel = [Label(grdFrame, text=i, width=monitorWidthQuated, height=monitorWidthQuated, image=passes[i]).grid(row=(int)(i / 2), column=(i % 2), padx=2, pady=2, sticky=NE) for i in range(len(passes))]
             img.save(dst_path, 'JPEG', quality=100, optimize=True)
             passes.append(ImageTk.PhotoImage(file=dst_path))
@@ -59,14 +53,3 @@ class IllustTab(Frame):
             except IndexError:
                 pass
             i += 1
-        print(urls)
-'''
-lb = Label(frame2, text='画像', bg='yellow', relief=RIDGE, bd=2)
-lb.place(relx=0.0, rely=0.0)
-strExtImage = '追加読み込み(後' + str(len(urls)) + '枚)'
-nxtImgButton = Button(frame2, text=strExtImage, command=nxtImage)
-nxtImgButton.place(relx=0.1, rely=0.0)
-grdFrame = Frame(frame2, width = dekWdhHarf, height = dekFulHeight, bg = 'white')
-grdFrame.place(relx=0.0, rely=0.03)
-lstLabel = setImage()
-'''
