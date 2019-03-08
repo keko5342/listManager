@@ -1,4 +1,6 @@
 from tkinter import *
+import os, time, urllib
+from PIL import Image, ImageTk
 
 class IllustTab(Frame):
     def __init__(self, master=None, width=0, height=0):
@@ -29,37 +31,44 @@ class IllustTab(Frame):
             os.mkdir("tmp")
         except FileExistsError:
             pass
+        self.photoList = []
         for i in range(len(imageUrl)):
             filename = os.path.basename(imageUrl[i])
             dst_path = os.path.join(download_dir, filename)
             time.sleep(sleep_time_sec)
-            img = download_image(imageUrl[i], dst_path)
+
+            #kokokara
+
+            img = self.downloadImage(imageUrl[i], dst_path)
             img = Image.open(dst_path, 'r')
-            img.thumbnail((monitorWidthQuated, monitorWidthQuated))
+            img.thumbnail((self['width'] / 2, self['height'] / 2))
             if img.mode != "RGB":
                 try:
                     img = img.convert("RGB")
                     print("RGB converted")
                 except IOError:
                     print("Cannot converted")
-            #canvas = Canvas(grdFrame, width=monitorWidthQuated, height=monitorWidthQuated, relief=RIDGE, bd=2, bg='red')
-            #canvas.create_image(0, 0, image=img, anchor=NW)
-            #print(canvas)
-            #passes.append(ImageTk.PhotoImage(image=img))
-            lstLabel = [Label(grdFrame, text=i, width=monitorWidthQuated, height=monitorWidthQuated, image=passes[i]).grid(row=(int)(i / 2), column=(i % 2), padx=2, pady=2, sticky=NE) for i in range(len(passes))]
             img.save(dst_path, 'JPEG', quality=100, optimize=True)
-            passes.append(ImageTk.PhotoImage(file=dst_path))
+            self.photoList.append(ImageTk.PhotoImage(file=dst_path))
+            self.imageLabelList = [Label(self.gridFrame, text=i, width=self['width'] / 2, height=self['height'] / 2, image=self.photoList[i]).grid(row=(int)(i / 2), column=(i % 2), padx=2, pady=2, sticky=NE)]
             os.remove(dst_path)
             if i >= 3:
                 break
         i = 0
         while i <= 3:
             try:
-                urls.pop(0)
+                imageUrl.pop(0)
             except IndexError:
                 pass
             i += 1
-        print(urls)
+
+    def downloadImage(self, url, dst_path):
+        try:
+            data = urllib.request.urlopen(url).read()
+            with open(dst_path, mode="wb") as f:
+                f.write(data)
+        except urllib.error.URLError as e:
+            print(e)
 '''
 lb = Label(frame2, text='画像', bg='yellow', relief=RIDGE, bd=2)
 lb.place(relx=0.0, rely=0.0)

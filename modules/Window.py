@@ -41,9 +41,9 @@ class Window:
         self.setup()
 
         # Create Sub Window
-        self.userTab = UserTab.UserTab(master=self.root, width=monitorWidthQuoted, height=monitorHeight, api=api)
-        self.illustTab = IllustTab.IllustTab(master=self.root, width=monitorWidthHarfed, height=monitorHeight)
-        self.manageTab = ManageTab.ManageTab(master=self.root, width=monitorWidthQuoted, height=monitorHeight)
+        self.userTab = UserTab.UserTab(master=self.root, width=self.monitorWidthQuoted, height=self.monitorHeight, api=api)
+        self.illustTab = IllustTab.IllustTab(master=self.root, width=self.monitorWidthHarfed, height=self.monitorHeight)
+        self.manageTab = ManageTab.ManageTab(master=self.root, width=self.monitorWidthQuoted, height=self.monitorHeight)
 
         # Add Event
         self.userTab.scrollListBox.bind("<Button-1>", self.userClickedListBox)
