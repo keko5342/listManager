@@ -9,7 +9,7 @@ listManagerでは、以下のことが可能です。
 # Usage
 本稿はWindows用です。他OSをお使いの場合は適宜OSに沿ったコマンドをご入力ください。pipにてパッケージを導入するため、仮想環境の構築工程が含まれていますが、必要のない場合は飛ばしていただいて構いません。
 1. git clone でソースコードをダウンロード
-2. クローンしたlistManagerのディレクトリに移動
+2. cd listManager でクローンしたlistManagerのディレクトリに移動
 3. py -m venv listManager_venv で仮想環境の作成
 4. .\listManager_venv\Scripts\activate で仮想環境を有効化
 5. pip install python-twitter, oauth2, urllib3, screeninfo, pillow で必要なパッケージをダウンロード
