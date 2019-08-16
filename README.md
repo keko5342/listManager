@@ -13,5 +13,13 @@ listManagerでは、以下のことが可能です。
 3. py -m venv listManager_venv で仮想環境の作成
 4. .\listManager_venv\Scripts\activate で仮想環境を有効化
 5. pip install python-twitter, oauth2, urllib3, screeninfo, pillow で必要なパッケージをダウンロード
-6. py listManager.py でlistManagerを起動
+6. py listManager.py でlistManager を起動
 
+```コピー用
+git clone ********
+cd listManager
+py -m venv listManager_venv
+.\listManager_venv\Scripts\activate
+pip install python-twitter, oauth2, urllib3, screeninfo, pillow
+py listManager.py
+```
