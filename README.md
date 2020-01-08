@@ -28,4 +28,4 @@ python - 3.7.1，3.8.1で動作確認
 3. py -m venv listManager_venv で仮想環境の作成
 4. listManager_vanv\Scripts\activate から仮想環境を有効化
 5. pip install -r requirements.txt で必要なパッケージをダウンロード
-6. py ..\..\modules\listManager.py で起動
+6. modulesディレクトリ中の listManager.py を起動
