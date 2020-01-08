@@ -1,12 +1,23 @@
+'''
+config.pyの内容をもとにTwitter APIへOauth認証を行う
+'''
 import config
 import sqlite3, urllib, webbrowser, twitter
 from tkinter import *
 import oauth2 as oauth
 import tkinter.ttk as ttk
 
-# Token
 class AccessTokenCollector:
-    # Request AccessToken at Local Database
+    def __init__(self, monitorInfo):
+        self.monitorInfo = monitorInfo
+        self.AT = ""
+        self.ATS = ""
+        self.CK = config.CONSUMER_KEY
+        self.CS = config.CONSUMER_SECRET
+        self.getAccessToken()
+        self.api = twitter.Api(self.CK, self.CS, self.AT, self.ATS)
+
+    # 既存のログイン情報が保存されているかをチェック
     def getAccessToken(self):
         conn = sqlite3.connect('access_token.db')
         try:
@@ -25,7 +36,7 @@ class AccessTokenCollector:
             print("access_tokenない！")
         conn.close()
 
-    # Fetch New Twitter Access Token
+    # ログイン情報が見つからなかった場合，新規でOauth認証のためのトークンを取得する
     def fetchNewAccessToken(self):
         request_token_url = 'https://api.twitter.com/oauth/request_token'
         access_token_url = 'https://api.twitter.com/oauth/access_token'
@@ -34,33 +45,19 @@ class AccessTokenCollector:
         consumer = oauth.Consumer(self.CK, self.CS)
         client = oauth.Client(consumer)
 
-        # Step 1: Get a request token. This is a temporary token that is used for
-        # having the user authorize an access token and to sign the request to obtain
-        # said access token.
         resp, content = client.request(request_token_url, "GET")
         if resp['status'] != '200':
             raise Exception("Invalid response %s." % resp['status'])
 
         request_token = dict(urllib.parse.parse_qsl(content))
 
-        # Step 2: Redirect to the provider. Since this is a CLI script we do not
-        # redirect. In a web application you would redirect the user to the URL
-        # below.
         url = "%s?oauth_token=%s" % (
             authorize_url, request_token[b'oauth_token'].decode())
         webbrowser.open(url)
 
-        # After the user has granted access to you, the consumer, the provider will
-        # redirect you to whatever URL you have told them to redirect to. You can
-        # usually define this in the oauth_callback argument as well.
         oauth_verifier = self.getPIN()
         self.athRoot.destroy()
 
-        # Step 3: Once the consumer has redirected the user back to the oauth_callback
-        # URL you can request the access token the user has approved. You use the
-        # request token to sign this request. After this is done you throw away the
-        # request token and use the access token returned. You should store this
-        # access token somewhere safe, like a database, for future use.
         token = oauth.Token(request_token[b'oauth_token'],
         request_token[b'oauth_token_secret'])
         token.set_verifier(oauth_verifier)
@@ -69,7 +66,7 @@ class AccessTokenCollector:
         resp, content = client.request(access_token_url, "POST")
         access_token = dict(urllib.parse.parse_qsl(content))
 
-        #access_tokenをデータベースに保存
+        # ログイン情報をデータベースに保存
         dbname = 'access_token.db'
         conn = sqlite3.connect(dbname)
         c = conn.cursor()
@@ -86,6 +83,7 @@ class AccessTokenCollector:
 
         return access_token
 
+    # 認証に必要なPINをGUIのフォームで入力する
     def getPIN(self):
         athLabel = Label(self.athRoot, text="認証画面で出るPINを入力してね").pack()
         athEntry = Entry(self.athRoot)
@@ -95,27 +93,16 @@ class AccessTokenCollector:
         athCombo["values"] = self.monitorInfo
         athCombo.current(0)
         athCombo.pack()
-        athSubmit = Button(self.athRoot, text="決定", command=self.smtClicked).pack()
+        athSubmit = Button(self.athRoot, text="決定", command=self.submitClicked).pack()
         self.athRoot.mainloop()
 
         return athEntry.get()
-
-    def smtClicked(self):
+    # GUIのフォームを閉じる
+    def submitClicked(self):
         self.athRoot.quit()
-
+    # Tokenが無事に取得できているかを確認（デバッグ用）
     def showVariables(self):
         print("AT={0}, ATS={1}, CK={2}, CS={3}".format(self.AT, self.ATS, self.CK, self.CS))
-
+    # Tokenを使用して取得したApiへの認証情報をTwitterInfoへ
     def returnApi(self):
         return self.api
-
-    def __init__(self, monitorInfo):
-        self.monitorInfo = monitorInfo
-        self.AT = ""
-        self.ATS = ""
-        self.CK = config.CONSUMER_KEY
-        self.CS = config.CONSUMER_SECRET
-        self.getAccessToken()
-        self.api = twitter.Api(self.CK, self.CS, self.AT, self.ATS)
-        #self.scrName = self.api.VerifyCredentials().screen_name
-        #self.listNames = [l.name for l in self.api.GetLists(screen_name=self.scrName)].append("Follow")

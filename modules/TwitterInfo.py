@@ -1,16 +1,56 @@
+'''
+Twitter APIを用いた処理は基本このプログラムで行う
+'''
 class TwitterInfo:
+    def __init__(self, api):
+        self.api = api
+        self.getScreenName()
+
+    # TwitterのID（固有識別子）を取得
+    def getScreenName(self):
+        self.screenName = self.api.VerifyCredentials().screen_name    
+    def returnScreenName(self):
+        return self.screenName
+
+    '''
+    リスト関連，ManageTabとUserTabで利用
+    '''
+    # 所持しているリスト一覧を取得
     def returnListNameList(self):
         listNameList = self.api.GetLists(screen_name=self.returnScreenName())
         listNameList = [l.name for l in listNameList]
         listNameList.append("Follow")
         return listNameList
-    
-    def getScreenName(self):
-        self.screenName = self.api.VerifyCredentials().screen_name
-    
-    def returnScreenName(self):
-        return self.screenName
+    # 選択したリストのメンバー一覧を取得
+    def returnListMember(self, listName):
+        return [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]
+    def returnNumList(self):
+        return self.api.GetLists(screen_name=self.screenName)
+    # リストからユーザを除外
+    def RemoveListUser(self, slug="", user=""):
+        self.api.DestroyListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+    # リストにユーザを追加
+    def AddListUser(self, slug="", user=""):
+        self.api.CreateListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
+    # どのリストにユーザが追加されているかをチェック
+    def returnListMemberShip(self, selectUser):
+        return self.api.GetMemberships(screen_name=selectUser, filter_to_owned_lists=True)
 
+    # 選択したユーザの投稿した画像を抽出
+    def getImageURL(self, selectUser):
+        plainUrlList = self.api.GetUserTimeline(screen_name=selectUser, count=200, include_rts=False)
+        urlList = []
+        for i in range(len(plainUrlList)):
+            try:
+                urlList.append(plainUrlList[i].media[0].media_url)
+            except TypeError:
+                pass
+        return urlList
+
+    '''
+    フォロー関連，ManageTabとUserTabで利用
+    '''
+    # フォローしているユーザの一覧を取得
     def returnFollowUser(self):
         followUserList = []
         followUsers = []
@@ -27,38 +67,9 @@ class TwitterInfo:
             pass
         self.followUsers = followUsers
         return followUsers
-
-    def returnListMember(self, listName):
-        return [u.screen_name for u in self.api.GetListMembers(slug=listName, owner_screen_name=self.screenName)]
-
-    def getImageURL(self, selectUser):
-        plainUrlList = self.api.GetUserTimeline(screen_name=selectUser, count=200, include_rts=False)
-        urlList = []
-        for i in range(len(plainUrlList)):
-            try:
-                urlList.append(plainUrlList[i].media[0].media_url)
-            except TypeError:
-                pass
-        return urlList
-
-    def returnNumList(self):
-        return self.api.GetLists(screen_name=self.screenName)
-
+    # 選択したユーザのフォローを解除
     def RemoveFollowUser(self, user=""):
         self.api.DestroyFriendship(screen_name=user)
-
+    # 選択したユーザをフォロー
     def AddFollowUser(self, user=""):
         self.api.CreateFriendship(screen_name=user, follow=False)
-
-    def RemoveListUser(self, slug="", user=""):
-        self.api.DestroyListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
-
-    def AddListUser(self, slug="", user=""):
-        self.api.CreateListsMember(slug=slug, owner_screen_name=self.screenName, screen_name=user)
-
-    def returnListMemberShip(self, selectUser):
-        return self.api.GetMemberships(screen_name=selectUser, filter_to_owned_lists=True)
-
-    def __init__(self, api):
-        self.api = api
-        self.getScreenName()
