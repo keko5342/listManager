@@ -1,5 +1,5 @@
 # listManager
-自作ソフト「listEditor」の改修版です。pythonで書かれているため、パッケージが対応していればどの環境でも動作します。
+自作ソフト「listEditor」の改修版です。pythonで書かれているため、パッケージが対応していればMac/Windows/Linuxで動作します。
 起動後画像
 ![イメージ画像](exampleImage.png "Image")
 
