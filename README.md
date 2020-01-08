@@ -26,5 +26,6 @@ python - 3.7.1，3.8.1で動作確認
 1. git clone でソースコードをダウンロード
 2. cd listManager でクローンしたlistManagerのディレクトリに移動
 3. py -m venv listManager_venv で仮想環境の作成
-4. pip install -r requirements.txt で必要なパッケージをダウンロード
-5. py modules\listManager.py で起動
+4. listManager_vanv\Scripts\activate から仮想環境を有効化
+5. pip install -r requirements.txt で必要なパッケージをダウンロード
+6. py ..\..\modules\listManager.py で起動
