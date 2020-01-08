@@ -1,10 +1,10 @@
 # listManager
-自作ソフト「listEditor」の改修版です。pythonで書かれているため、パッケージが対応していればMac/Windows/Linuxで動作します。
+自作ソフト「listEditor」の改修版です。python製のためパッケージが対応していればMac/Windows/Linuxで動作します。
 起動後画像
 ![イメージ画像](exampleImage.png "Image")
 
 # What is listManager?
-listManagerは、友人の要請でTwitterで活躍しているイラストレーターさんをまとめたリストを分類分けするために利用します。
+listManagerは、友人の要請でTwitterで活躍しているイラストレーターさんをまとめたリストを分類分けするために作成したツールです。
 listManagerでは、以下のことが可能です。
 1. フォローしているユーザ及び公開リストのユーザの表示，選択（UserTab：青色）
 2. 選択したユーザが投稿した画像の閲覧（IllustTab：黄色）
