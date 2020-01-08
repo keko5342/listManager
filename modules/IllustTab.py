@@ -1,17 +1,23 @@
+'''
+画面真ん中のコンポーネント，左側のタブであるUserTabで選択したユーザの画像を収集表示する
+'''
 from tkinter import *
 import os, time, urllib
 from PIL import Image, ImageTk
 
 class IllustTab(Frame):
     def __init__(self, master=None, width=0, height=0, api=0):
+        # Tabの初期化
         super().__init__(master)
         self['bg'] = 'yellow'
         self['width'] = width
         self['height'] = height
         self.create_widgets()
 
+        # Tabの配置
         self.place(relx=0.25, rely=0.0, relwidth=0.5, relheight=1.0)
 
+    # TabにWidgetを配置
     def create_widgets(self):
         widgetWidthMargin = 0.01
         widgetHeightMargin = 0.003
@@ -21,7 +27,7 @@ class IllustTab(Frame):
         self.gridFrame = Frame(self, bg = 'white')
         self.gridFrame.place(relwidth=1.0 - widgetWidthMargin * 2, relheight=0.975 - widgetHeightMargin * 2, relx=widgetWidthMargin, rely=0.025 + widgetHeightMargin)
 
-    #4件だけ保存#
+    # 画像を4件だけ抽出
     def downloadFourImage(self, imageUrl, monitorWidthQuated):
         download_dir = 'tmp'
         sleep_time_sec = 0.1
@@ -58,6 +64,7 @@ class IllustTab(Frame):
                 pass
             i += 1
 
+    # 画像を全件抽出（未使用）
     def downloadImage(self, url, dst_path):
         try:
             data = urllib.request.urlopen(url).read()
